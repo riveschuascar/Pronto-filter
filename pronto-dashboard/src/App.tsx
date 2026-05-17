@@ -66,7 +66,7 @@ function App() {
           conversation.categories.includes(categoriaActiva);
         const coincideIntencion =
           intencionActiva === "Todas" ||
-          conversation.purchase_intent === intencionActiva;
+          conversation.purchase_intent.toLowerCase() === intencionActiva.toLowerCase();
         return coincideCategoria && coincideIntencion;
       })
       .sort((a, b) => {
