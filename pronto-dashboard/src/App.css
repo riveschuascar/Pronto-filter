@@ -4,53 +4,72 @@
   --pronto-purple-light: #a053ef;
   --pronto-cyan: #08e5ff;
   --pronto-cyan-soft: #09d7ef;
+
   --pronto-dark: #161717;
   --pronto-panel: #1f1f24;
   --pronto-panel-soft: #282832;
   --pronto-border: #3a3a46;
+
   --pronto-text: #ffffff;
   --pronto-muted: #b9b9c5;
+
   --table-row: #24242d;
   --table-row-alt: #2b2b35;
   --table-hover: #333344;
 }
 
+/* RESET GENERAL */
 * {
   box-sizing: border-box;
 }
 
 html,
-body {
-  margin: 0;
-  padding: 0;
+body,
+#root {
   width: 100%;
   min-height: 100%;
+  margin: 0;
+  padding: 0;
+  max-width: none;
   overflow-x: hidden;
+}
+
+body {
+  display: block;
+  place-items: initial;
   font-family: Arial, Helvetica, sans-serif;
   background: var(--pronto-purple);
 }
 
-/* Fondo general */
+#root {
+  min-height: 100vh;
+  text-align: initial;
+}
+
+/* FONDO GENERAL */
 .app {
   min-height: 100vh;
   width: 100%;
-  padding: 0 18px 32px;
+  max-width: none;
+  margin: 0;
+  padding: 0 24px 32px;
   color: var(--pronto-text);
   background: var(--pronto-purple);
 }
 
-/* Bloque principal más ancho */
+/* PANEL PRINCIPAL */
 .panel {
-  width: min(100%, 1650px);
-  margin: 0 auto;
-  padding: 32px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: clamp(24px, 2vw, 48px);
   border-radius: 0 0 26px 26px;
   background: var(--pronto-dark);
   border: none;
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.32);
 }
 
-/* Encabezado */
+/* HEADER */
 .header {
   display: flex;
   justify-content: space-between;
@@ -81,7 +100,7 @@ body {
   white-space: nowrap;
 }
 
-/* Filtros */
+/* FILTROS */
 .filtros {
   display: flex;
   flex-direction: column;
@@ -106,6 +125,7 @@ body {
   font-weight: 800;
   color: var(--pronto-text);
   text-align: left;
+  flex-shrink: 0;
 }
 
 .botones {
@@ -136,7 +156,7 @@ body {
   border-color: var(--pronto-cyan);
 }
 
-/* Contenedor tabla */
+/* CONTENEDOR DE TABLA */
 .tabla-contenedor {
   width: 100%;
   overflow-x: auto;
@@ -145,18 +165,17 @@ body {
   border: 1px solid var(--pronto-border);
 }
 
-/* Tabla */
+/* TABLA */
 .tabla-leads {
   width: 100%;
-  min-width: 720px;
   border-collapse: separate;
   border-spacing: 0;
   color: var(--pronto-text);
   font-size: 14px;
-  table-layout: auto;
+  table-layout: fixed;
 }
 
-/* Encabezado celeste */
+/* CABECERA CELESTE */
 .tabla-leads thead {
   background: var(--pronto-cyan);
 }
@@ -177,60 +196,43 @@ body {
   border-right: none;
 }
 
-/* Anchos de columnas */
+/* Teléfono: ancho fijo suficiente para el número */
 .tabla-leads th:nth-child(1),
 .tabla-leads td:nth-child(1) {
-  width: 80px;
-  text-align: center;
+  width: 150px;
+  min-width: 140px;
+  white-space: nowrap; /* ← evita que el número se parta */
 }
 
+/* Nombre: flexible, ocupa el espacio restante */
 .tabla-leads th:nth-child(2),
 .tabla-leads td:nth-child(2) {
-  width: 30%;
+  width: auto;
+  min-width: 180px;
 }
 
+/* Productos */
 .tabla-leads th:nth-child(3),
 .tabla-leads td:nth-child(3) {
-  width: 18%;
+  width: 160px;
+  min-width: 120px;
 }
 
+/* Categorías */
 .tabla-leads th:nth-child(4),
 .tabla-leads td:nth-child(4) {
-  width: 18%;
+  width: 150px;
+  min-width: 120px;
 }
 
+/* Prioridad */
 .tabla-leads th:nth-child(5),
 .tabla-leads td:nth-child(5) {
-  width: auto;
-  min-width: 160px;
+  width: 120px;
+  min-width: 100px;
 }
 
-@media (max-width: 960px) {
-  .panel {
-    padding: 24px 20px;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .contador {
-    width: 100%;
-    text-align: center;
-  }
-
-  .grupo-filtro {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .grupo-filtro h3 {
-    width: 100%;
-  }
-}
-
-/* Celdas */
+/* CELDAS */
 .tabla-leads td {
   padding: 16px 18px;
   border-bottom: 1px solid var(--pronto-border);
@@ -264,7 +266,7 @@ body {
   font-weight: 900;
 }
 
-/* Usuario */
+/* USUARIO */
 .usuario {
   display: flex;
   align-items: center;
@@ -298,7 +300,7 @@ body {
   font-size: 12px;
 }
 
-/* Badges */
+/* BADGES */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -334,7 +336,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
-/* Botón acción */
+/* BOTÓN ACCIÓN */
 .btn-accion {
   border: none;
   padding: 10px 16px;
@@ -352,7 +354,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* Estado vacío */
+/* ESTADO VACÍO */
 .estado-vacio {
   padding: 42px;
   text-align: center;
@@ -369,10 +371,16 @@ body {
   color: var(--pronto-muted);
 }
 
-/* Laptop normal */
+/* LAPTOP NORMAL */
 @media (max-width: 1366px) {
+  .app {
+    padding: 0 16px 28px;
+  }
+
   .panel {
-    width: min(100%, 1180px);
+    width: 100%;
+    max-width: none;
+    margin: 0;
     padding: 28px;
   }
 
@@ -382,7 +390,7 @@ body {
   }
 }
 
-/* Tablet */
+/* TABLET */
 @media (max-width: 1024px) {
   .app {
     padding: 0 14px 28px;
@@ -406,11 +414,11 @@ body {
   }
 
   .tabla-leads {
-    min-width: 780px;
+    min-width: 760px;
   }
 }
 
-/* Celular */
+/* CELULAR */
 @media (max-width: 700px) {
   .app {
     padding: 0 10px 24px;
@@ -438,6 +446,7 @@ body {
 
   .grupo-filtro {
     flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
   }
 
@@ -468,6 +477,10 @@ body {
   .tabla-leads tr {
     display: block;
     width: 100%;
+  }
+
+  .tabla-leads {
+    min-width: 0;
   }
 
   .tabla-leads thead {
@@ -517,11 +530,17 @@ body {
   }
 }
 
-/* Pantallas 4K */
+/* PANTALLAS GRANDES Y 4K */
 @media (min-width: 1800px) {
+  .app {
+    padding: 0 40px 48px;
+  }
+
   .panel {
-    width: min(92vw, 2200px);
-    padding: 42px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 48px 56px;
   }
 
   .tabla-leads {
@@ -543,5 +562,15 @@ body {
 
   .header p {
     font-size: 20px;
+  }
+
+  .btn {
+    padding: 12px 22px;
+    font-size: 15px;
+  }
+
+  .btn-accion {
+    padding: 12px 20px;
+    font-size: 15px;
   }
 }

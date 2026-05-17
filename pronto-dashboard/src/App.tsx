@@ -81,8 +81,8 @@ function App() {
       <section className="panel">
         <div className="header">
           <div>
-            <h1>Pronto AI</h1>
-            <p>Filtro inteligente de conversaciones y clientes potenciales</p>
+            <h1>Conversaciones</h1>
+            <p>Filtro inteligente de conversaciones de clientes</p>
           </div>
 
           <span className="contador">

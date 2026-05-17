@@ -5,18 +5,22 @@ type ConversationTableProps = {
   loading: boolean;
 };
 
-function formatDate(timestamp: { seconds?: number } | null | undefined) {
-  if (!timestamp?.seconds) return "-";
-  return new Date(timestamp.seconds * 1000).toLocaleString("es-ES", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+function getValue(value: unknown) {
+  if (value === null || value === undefined || value === "") {
+    return "~";
+  }
+
+  if (Array.isArray(value)) {
+    return value.length > 0 ? value.join(", ") : "~";
+  }
+
+  return String(value);
 }
 
-export function ConversationTable({ conversations, loading }: ConversationTableProps) {
+export function ConversationTable({
+  conversations,
+  loading,
+}: ConversationTableProps) {
   if (loading) {
     return (
       <section className="tabla-contenedor">
@@ -47,48 +51,44 @@ export function ConversationTable({ conversations, loading }: ConversationTableP
       <table className="tabla-leads">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nombre</th>
             <th>Teléfono</th>
-            <th>Categorías</th>
+            <th>Nombre</th>
             <th>Productos</th>
-            <th>Intención</th>
-            <th>Creado</th>
+            <th>Categorías</th>
+            <th>Prioridad</th>
           </tr>
         </thead>
 
         <tbody>
-          {conversations.map((conversation) => (
-            <tr key={conversation.id}>
-              <td data-label="ID">{conversation.id}</td>
-              <td data-label="Nombre">
-                <div className="usuario">
-                  <div className="avatar">{conversation.name?.charAt(0) ?? "?"}</div>
-                  <div>
-                    <strong>{conversation.name}</strong>
-                    <span>{conversation.purchase_intent}</span>
-                  </div>
-                </div>
+          {conversations.map((conversation, index) => (
+            <tr key={conversation.id ?? index}>
+              <td data-label="Teléfono">
+                {getValue(conversation.phone)}
               </td>
-              <td data-label="Teléfono">{conversation.phone || "-"}</td>
+
+              <td data-label="Nombre">
+                <strong>{getValue(conversation.name)}</strong>
+              </td>
+
+              <td data-label="Productos">
+                {getValue(conversation.products)}
+              </td>
+
               <td data-label="Categorías">
                 <span className="badge categoria">
-                  {conversation.categories.length > 0
-                    ? conversation.categories.join(", ")
-                    : "Sin categorías"}
+                  {getValue(conversation.categories)}
                 </span>
               </td>
-              <td data-label="Productos">
-                {conversation.products.length > 0
-                  ? conversation.products.join(", ")
-                  : "-"}
-              </td>
-              <td data-label="Intención">
-                <span className={`badge intencion-${conversation.purchase_intent.toLowerCase()}`}>
-                  {conversation.purchase_intent}
+
+              <td data-label="Prioridad">
+                <span
+                  className={`badge intencion-${String(
+                    conversation.purchase_intent ?? "baja"
+                  ).toLowerCase()}`}
+                >
+                  {getValue(conversation.purchase_intent)}
                 </span>
               </td>
-              <td data-label="Creado">{formatDate(conversation.created_at)}</td>
             </tr>
           ))}
         </tbody>
