@@ -1,11 +1,20 @@
 from fastapi import FastAPI, HTTPException
 import firebase_admin
+import os
+import json
+import base64
+from dotenv import load_dotenv
 from firebase_admin import credentials, firestore
 from src.models.ChatbotRequestBody import ChatbotRequestBody
 
+load_dotenv()
+
 app = FastAPI()
 
-cred = credentials.Certificate("src/serviceAccountKey.json")
+cred_str = os.environ.get("FIREBASE_CREDENTIALS")
+cred_dict = json.loads(base64.b64decode(cred_str).decode("utf-8"))
+cred = credentials.Certificate(cred_dict)
+
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
