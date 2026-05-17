@@ -1,2 +1,2 @@
-fastapi
+fastapi[standard-no-fastapi-cloud-cli]
 firebase-admin
